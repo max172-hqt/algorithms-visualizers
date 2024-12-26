@@ -1,16 +1,19 @@
 import classNames from "classnames";
+import dfs from "../algorithms/dfs";
 
 function GraphVisualizer() {
   const matrix = [
-    [0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0],
     [0, 1, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 1, 0, 1, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ];
 
   const start = [0, 0];
   const end = [4, 7]; 
+
+  console.log(dfs(matrix, start, end));
 
   return (
     <div className="flex items-center flex-col gap-2 m-4">
