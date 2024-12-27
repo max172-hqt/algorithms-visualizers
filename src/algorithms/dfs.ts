@@ -1,10 +1,5 @@
 import { type Cell } from "../graph-visualizer/GraphVisualizerContext";
 
-export const STATUS = {
-  VISITED: "VISITED",
-  DEAD_END: "DEAD_END",
-};
-
 export default function dfs(matrix: number[][], start: Cell, end: Cell) {
   const dx = [0, 1, 0, -1];
   const dy = [1, 0, -1, 0];
@@ -32,7 +27,7 @@ export default function dfs(matrix: number[][], start: Cell, end: Cell) {
 
       if (isValid(x, y, m, n) && matrix[x][y] === 0 && !visited[x][y]) {
         animations.push({
-          status: STATUS.VISITED,
+          status: "VISITED",
           point: { x, y },
         });
         if (traverse({ x, y }, end)) {
@@ -42,7 +37,7 @@ export default function dfs(matrix: number[][], start: Cell, end: Cell) {
     }
 
     animations.push({
-      status: STATUS.DEAD_END,
+      status: "DEAD_END",
       point: start,
     });
 

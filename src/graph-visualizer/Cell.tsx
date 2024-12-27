@@ -5,7 +5,7 @@ interface CellProps {
   cell: Cell;
 }
 
-function Cell({ cell: { x, y, type } }: CellProps) {
+function Cell({ cell }: CellProps) {
   const {
     start,
     end,
@@ -17,6 +17,10 @@ function Cell({ cell: { x, y, type } }: CellProps) {
     setCurrentCellType,
     setWalls,
   } = useGraphVisualizerContext();
+
+  if (!cell) return;
+  
+  const { x, y, type, status } = cell;
 
   function handleOnMouseDown(x: number, y: number) {
     setIsMouseDown(true);
@@ -73,6 +77,8 @@ function Cell({ cell: { x, y, type } }: CellProps) {
           "bg-red-500": type === "WALL",
           "bg-green-500": type === "START",
           "bg-amber-500": type === "END",
+          "bg-red-200": status && status === "DEAD_END",
+          "bg-yellow-500": status && status === "VISITED",
         }
       )}
     ></div>

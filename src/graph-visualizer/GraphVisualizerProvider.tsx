@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useMemo, useState } from "react";
+import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
 import {
   type Cell,
   type CELL_TYPE,
@@ -16,6 +16,7 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
   const [start, setStart] = useState<Cell>({ x: 0, y: 0 });
   const [end, setEnd] = useState<Cell>({ x: 7, y: 7 });
   const [walls, setWalls] = useState<Cell[]>([]);
+  const [cells, setCells] = useState<Cell[][]>([]);
 
   const matrix = useMemo(() => {
     const res = new Array(m).fill(0).map(() => new Array(n).fill(0));
@@ -27,7 +28,7 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
     return res;
   }, [m, n, walls]);
 
-  function getType(x: number, y: number) {
+  const getType = useCallback((x: number, y: number) => {
     if (x === start.x && y === start.y) {
       return "START";
     } else if (x === end.x && y === end.y) {
@@ -36,7 +37,20 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
       return "WALL";
     }
     return "BLANK";
-  }
+  }, [end.x, end.y, matrix, start.x, start.y])
+
+  useEffect(() => {
+    const res = new Array(m).fill(0).map(() => new Array(n).fill(0));
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        res[i][j] = {
+          x: i, y: j, type: getType(i, j)
+        }
+      }
+    }
+    console.log(res)
+    setCells(res);
+  }, [getType, m, n])
 
   return (
     <GraphVisualizerContext.Provider
@@ -55,6 +69,8 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
         setWalls,
         matrix,
         getType,
+        cells,
+        setCells
       }}
     >
       {children}

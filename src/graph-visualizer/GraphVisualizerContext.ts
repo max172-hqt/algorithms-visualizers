@@ -2,10 +2,13 @@ import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 export type CELL_TYPE = "START" | "END" | "BLANK" | "WALL";
 
+export type STATUS = "VISITED" | "DEAD_END";
+
 export interface Cell {
   x: number;
   y: number;
   type?: CELL_TYPE;
+  status?: STATUS
 }
 
 interface GraphVisualizerContextType {
@@ -21,8 +24,10 @@ interface GraphVisualizerContextType {
   setIsMouseDown: Dispatch<SetStateAction<boolean>>;
   currentCellType: string | null;
   setCurrentCellType: Dispatch<SetStateAction<CELL_TYPE | null>>;
-  matrix: number[][],
-  getType: (x: number, y: number) => CELL_TYPE
+  matrix: number[][];
+  getType: (x: number, y: number) => CELL_TYPE;
+  cells: Cell[][];
+  setCells: Dispatch<SetStateAction<Cell[][]>>;
 }
 
 export const GraphVisualizerContext =
