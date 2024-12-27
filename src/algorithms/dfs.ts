@@ -1,12 +1,14 @@
-export default function dfs(
-  matrix: number[][],
-  start: number[],
-  end: number[]
-) {
+import { type Cell } from "../graph-visualizer/GraphVisualizerContext";
+
+export const STATUS = {
+  VISITED: "VISITED",
+  DEAD_END: "DEAD_END",
+};
+
+export default function dfs(matrix: number[][], start: Cell, end: Cell) {
   const dx = [0, 1, 0, -1];
   const dy = [1, 0, -1, 0];
-  const animations: { status: string; point: number[] }[] = [];
-
+  const animations: { status: string; point: Cell }[] = [];
   const m = matrix.length;
   const n = matrix[0].length;
 
@@ -16,30 +18,31 @@ export default function dfs(
 
   return animations;
 
-  function traverse(start: number[], end: number[]) {
-    visited[start[0]][start[1]] = true;
+  // Helper function to traverse the matrix dfs
+  function traverse(start: Cell, end: Cell) {
+    visited[start.x][start.y] = true;
 
-    if (start[0] === end[0] && start[1] === end[1]) {
+    if (start.x === end.x && start.y === end.y) {
       return true;
     }
 
     for (let i = 0; i < 4; i++) {
-      const x = start[0] + dx[i];
-      const y = start[1] + dy[i];
+      const x = start.x + dx[i];
+      const y = start.y + dy[i];
 
       if (isValid(x, y, m, n) && matrix[x][y] === 0 && !visited[x][y]) {
         animations.push({
-          status: "inpath",
-          point: [x, y],
+          status: STATUS.VISITED,
+          point: { x, y },
         });
-        if (traverse([x, y], end)) {
+        if (traverse({ x, y }, end)) {
           return true;
         }
       }
     }
 
     animations.push({
-      status: "done",
+      status: STATUS.DEAD_END,
       point: start,
     });
 
@@ -47,6 +50,6 @@ export default function dfs(
   }
 }
 
-function isValid(x: number, y: number, m: number, n: number) {
+export function isValid(x: number, y: number, m: number, n: number) {
   return x >= 0 && x < m && y >= 0 && y < n;
 }
