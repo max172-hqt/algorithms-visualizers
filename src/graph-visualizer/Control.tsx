@@ -34,12 +34,12 @@ function Control() {
 
   function handleApply(e) {
     e.preventDefault();
-    setM(Math.max(Math.min(5, rows), 20));
-    setRows(Math.max(Math.min(5, rows), 20));
-    setN(Math.max(Math.min(5, cols), 20));
-    setCols(Math.max(Math.min(5, cols), 20));
-    setAnimationSpeed(Math.max(Math.min(5, speed), 20));
-    setSpeed(Math.max(Math.min(5, speed), 20));
+    setM(Math.min(rows, 20));
+    setRows(Math.min(rows, 20));
+    setN(Math.min(cols, 20));
+    setCols(Math.min(cols, 20));
+    setAnimationSpeed(Math.min(speed, 200));
+    setSpeed(Math.min(speed, 200));
     setIsDialogOpen(false);
   }
 
@@ -68,7 +68,7 @@ function Control() {
                     type="number"
                     value={rows}
                     onChange={(e) => setRows(Number(e.target.value))}
-                    min={5}
+                    min={1}
                     max={20}
                     className={classNames(
                       "mt-3 block w-full rounded-lg border bg-white/5 py-1.5 px-3 text-sm/6",
@@ -77,11 +77,13 @@ function Control() {
                   />
                 </Field>
                 <Field className="flex-1">
-                  <Label className="text-sm/6 font-medium">Columns (5-20)</Label>
+                  <Label className="text-sm/6 font-medium">
+                    Columns (5-20)
+                  </Label>
                   <Input
                     name="columns"
                     type="number"
-                    min={5}
+                    min={1}
                     max={20}
                     value={cols}
                     onChange={(e) => setCols(Number(e.target.value))}
@@ -128,6 +130,9 @@ function Control() {
         <Button onClick={runBfs} variant="primary">
           Breadth-First Search
         </Button>
+
+        <div className="h-[1px] border-b border-b-gray-600"></div>
+
         <Button onClick={generateWalls} variant="danger" className="flex-1">
           Generate Walls
         </Button>

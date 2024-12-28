@@ -35,10 +35,10 @@ function Board() {
   return (
     <div className="flex-1 flex md:flex-row flex-col gap-8 justify-center items-center p-4 bg-[#121212] rounded-lg text-white text-sm w-full overflow-hidden">
       <div
-        className="grid gap-1 bg-[#1f1f1f] p-4 rounded-lg w-full max-w-3xl aspect-square"
+        className="grid gap-1 bg-[#1f1f1f] p-4 rounded-lg flex-shrink-0"
         style={{
-          gridTemplateRows: `repeat(${m}, minmax(0, 1fr))`,
-          gridTemplateColumns: `repeat(${n}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${m}, minmax(0fr, 1fr))`,
+          gridTemplateColumns: `repeat(${n}, 1fr`,
         }}
       >
         {matrix.map((row, i) => {

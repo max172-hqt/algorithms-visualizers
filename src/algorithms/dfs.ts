@@ -3,12 +3,20 @@ import { dx, dy, isValid } from "./helpers";
 
 export default function dfs(matrix: number[][], start: Cell, end: Cell) {
   const animations: { status: STATUS; points: Cell[] }[] = [];
+  let deadEnds: Cell[] = [];
   const m = matrix.length;
   const n = matrix[0].length;
 
   const visited = new Array(m).fill(0).map(() => new Array(n).fill(false));
 
   traverse(start, end);
+
+  if (deadEnds.length > 0) {
+    animations.push({
+      status: "DEAD_END",
+      points: deadEnds,
+    });
+  }
 
   return animations;
 
@@ -26,19 +34,23 @@ export default function dfs(matrix: number[][], start: Cell, end: Cell) {
 
       if (isValid(x, y, m, n) && matrix[x][y] === 0 && !visited[x][y]) {
         animations.push({
+          status: "DEAD_END",
+          points: deadEnds,
+        });
+        deadEnds = [];
+
+        animations.push({
           status: "VISITED",
           points: [{ x, y }],
         });
+
         if (traverse({ x, y }, end)) {
           return true;
         }
       }
     }
 
-    animations.push({
-      status: "DEAD_END",
-      points: [start],
-    });
+    deadEnds.push(start);
 
     return false;
   }
