@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { type Cell, useGraphVisualizerContext } from "./GraphVisualizerContext";
-import { IconFlag, IconPennant2 } from "@tabler/icons-react";
+import { IconPennant2 } from "@tabler/icons-react";
 
 interface CellProps {
   cell: Cell;

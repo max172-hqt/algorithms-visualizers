@@ -1,10 +1,18 @@
-import { type PropsWithChildren, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   type Cell,
   type CELL_TYPE,
   GraphVisualizerContext,
 } from "./GraphVisualizerContext";
-import dfs, { isValid } from "../algorithms/dfs";
+import dfs from "../algorithms/dfs";
+import { isValid } from "../algorithms/helpers";
+import bfs from "../algorithms/bfs";
 
 function GraphVisualizerProvider({ children }: PropsWithChildren) {
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -29,46 +37,52 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
     return res;
   }, [m, n, walls]);
 
-  const getType = useCallback((x: number, y: number) => {
-    if (x === start.x && y === start.y) {
-      return "START";
-    } else if (x === end.x && y === end.y) {
-      return "END";
-    } else if (matrix[x][y] === 1) {
-      return "WALL";
-    }
-    return "BLANK";
-  }, [end.x, end.y, matrix, start.x, start.y])
+  const getType = useCallback(
+    (x: number, y: number) => {
+      if (x === start.x && y === start.y) {
+        return "START";
+      } else if (x === end.x && y === end.y) {
+        return "END";
+      } else if (matrix[x][y] === 1) {
+        return "WALL";
+      }
+      return "BLANK";
+    },
+    [end.x, end.y, matrix, start.x, start.y]
+  );
 
   useEffect(() => {
     const res = new Array(m).fill(0).map(() => new Array(n).fill(0));
     for (let i = 0; i < m; i++) {
       for (let j = 0; j < n; j++) {
         res[i][j] = {
-          x: i, y: j, type: getType(i, j)
-        }
+          x: i,
+          y: j,
+          type: getType(i, j),
+        };
       }
     }
     setCells(res);
-  }, [getType, m, n])
+  }, [getType, m, n]);
 
   function runAnimation() {
     resetPath();
 
-    const animations = dfs(matrix, start, end);
+    const animations = bfs(matrix, start, end);
 
     for (let i = 0; i < animations.length; i++) {
-      const { x, y } = animations[i].point;
+      const points = animations[i].points;
       const status = animations[i].status;
       const id = setTimeout(() => {
         setCells((cells) => {
           return cells.map((row, i) => {
             return row.map((cell, j) => {
-              if (x === i && y === j) {
-                return { ...cell, status };
-              } else {
-                return cell;
+              for (const point of points) {
+                if (point.x === i && point.y === j) {
+                  return { ...cell, status };
+                } 
               }
+              return cell;
             });
           });
         });
@@ -86,7 +100,7 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
     setCells((cells) => {
       return cells.map((row) => {
         return row.map((cell) => {
-          return { ...cell, status: undefined}
+          return { ...cell, status: undefined };
         });
       });
     });

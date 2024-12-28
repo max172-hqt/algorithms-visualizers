@@ -1,9 +1,8 @@
 import { STATUS, type Cell } from "../graph-visualizer/GraphVisualizerContext";
+import { dx, dy, isValid } from "./helpers";
 
 export default function dfs(matrix: number[][], start: Cell, end: Cell) {
-  const dx = [0, 1, 0, -1];
-  const dy = [1, 0, -1, 0];
-  const animations: { status: STATUS; point: Cell }[] = [];
+  const animations: { status: STATUS; points: Cell[] }[] = [];
   const m = matrix.length;
   const n = matrix[0].length;
 
@@ -28,7 +27,7 @@ export default function dfs(matrix: number[][], start: Cell, end: Cell) {
       if (isValid(x, y, m, n) && matrix[x][y] === 0 && !visited[x][y]) {
         animations.push({
           status: "VISITED",
-          point: { x, y },
+          points: [{ x, y }],
         });
         if (traverse({ x, y }, end)) {
           return true;
@@ -38,13 +37,9 @@ export default function dfs(matrix: number[][], start: Cell, end: Cell) {
 
     animations.push({
       status: "DEAD_END",
-      point: start,
+      points: [start],
     });
 
     return false;
   }
-}
-
-export function isValid(x: number, y: number, m: number, n: number) {
-  return x >= 0 && x < m && y >= 0 && y < n;
 }
