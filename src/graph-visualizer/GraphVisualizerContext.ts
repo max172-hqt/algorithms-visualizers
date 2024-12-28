@@ -8,7 +8,7 @@ export interface Cell {
   x: number;
   y: number;
   type?: CELL_TYPE;
-  status?: STATUS
+  status?: STATUS;
 }
 
 interface GraphVisualizerContextType {
@@ -28,6 +28,9 @@ interface GraphVisualizerContextType {
   getType: (x: number, y: number) => CELL_TYPE;
   cells: Cell[][];
   setCells: Dispatch<SetStateAction<Cell[][]>>;
+  runAnimation: () => void;
+  resetPath: () => void;
+  resetAll: () => void;
 }
 
 export const GraphVisualizerContext =

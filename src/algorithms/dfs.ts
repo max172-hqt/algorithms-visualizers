@@ -1,9 +1,9 @@
-import { type Cell } from "../graph-visualizer/GraphVisualizerContext";
+import { STATUS, type Cell } from "../graph-visualizer/GraphVisualizerContext";
 
 export default function dfs(matrix: number[][], start: Cell, end: Cell) {
   const dx = [0, 1, 0, -1];
   const dy = [1, 0, -1, 0];
-  const animations: { status: string; point: Cell }[] = [];
+  const animations: { status: STATUS; point: Cell }[] = [];
   const m = matrix.length;
   const n = matrix[0].length;
 

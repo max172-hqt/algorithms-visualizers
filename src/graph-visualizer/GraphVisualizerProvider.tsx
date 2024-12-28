@@ -4,7 +4,7 @@ import {
   type CELL_TYPE,
   GraphVisualizerContext,
 } from "./GraphVisualizerContext";
-import { isValid } from "../algorithms/dfs";
+import dfs, { isValid } from "../algorithms/dfs";
 
 function GraphVisualizerProvider({ children }: PropsWithChildren) {
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -12,11 +12,12 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
     null
   );
   const [m] = useState(15);
-  const [n] = useState(10);
+  const [n] = useState(15);
   const [start, setStart] = useState<Cell>({ x: 0, y: 0 });
-  const [end, setEnd] = useState<Cell>({ x: 7, y: 7 });
+  const [end, setEnd] = useState<Cell>({ x: m - 1, y: n - 1 });
   const [walls, setWalls] = useState<Cell[]>([]);
   const [cells, setCells] = useState<Cell[][]>([]);
+  const [timeoutIds, setTimeoutIds] = useState<number[]>([]);
 
   const matrix = useMemo(() => {
     const res = new Array(m).fill(0).map(() => new Array(n).fill(0));
@@ -48,9 +49,53 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
         }
       }
     }
-    console.log(res)
     setCells(res);
   }, [getType, m, n])
+
+  function runAnimation() {
+    resetPath();
+
+    const animations = dfs(matrix, start, end);
+
+    for (let i = 0; i < animations.length; i++) {
+      const { x, y } = animations[i].point;
+      const status = animations[i].status;
+      const id = setTimeout(() => {
+        setCells((cells) => {
+          return cells.map((row, i) => {
+            return row.map((cell, j) => {
+              if (x === i && y === j) {
+                return { ...cell, status };
+              } else {
+                return cell;
+              }
+            });
+          });
+        });
+      }, i * 20);
+
+      setTimeoutIds((prev) => {
+        return [...prev, id];
+      });
+    }
+  }
+
+  function resetPath() {
+    timeoutIds.forEach((id) => clearTimeout(id));
+    setTimeoutIds([]);
+    setCells((cells) => {
+      return cells.map((row) => {
+        return row.map((cell) => {
+          return { ...cell, status: undefined}
+        });
+      });
+    });
+  }
+
+  function resetAll() {
+    resetPath();
+    setWalls([]);
+  }
 
   return (
     <GraphVisualizerContext.Provider
@@ -70,7 +115,10 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
         matrix,
         getType,
         cells,
-        setCells
+        setCells,
+        resetPath,
+        resetAll,
+        runAnimation,
       }}
     >
       {children}
