@@ -7,7 +7,7 @@ function App() {
   return (
     <GraphVisualizerProvider>
       <Layout>
-        <div className="flex gap-4 h-full flex-1 p-4 pt-0">
+        <div className="flex flex-col md:flex-row gap-4 h-full flex-1 p-4 pt-0">
           <Control />
           <Board />
         </div>

@@ -73,16 +73,20 @@ function Cell({ cell }: CellProps) {
         handleMouseOver(e, x, y)
       }
       className={classNames(
-        "cell w-8 h-8 border border-gray-400 inline-flex items-center justify-center",
+        "cell flex-grow border border-gray-400 inline-flex items-center justify-center",
         {
           "bg-red-500": type === "WALL",
-          "bg-green-500": type === "START",
-          "bg-amber-500": type === "END",
-          "bg-red-200": status === "DEAD_END" && type !== 'END' && type !== 'START',
-          "bg-yellow-500": status === "VISITED" && type !== 'END' && type !== 'START',
+          "bg-blue-500": type === "START",
+          "bg-green-500": type === "END",
+          "bg-red-200":
+            status === "DEAD_END" && type !== "END" && type !== "START",
+          "bg-orange-300":
+            status === "VISITED" && type !== "END" && type !== "START",
         }
       )}
-    >{status === "VISITED" && type === 'END' && <IconPennant2 />}</div>
+    >
+      {/* {status === "VISITED" && type === "END" && <IconPennant2 />} */}
+    </div>
   );
 }
 

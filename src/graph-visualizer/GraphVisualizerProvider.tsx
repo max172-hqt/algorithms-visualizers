@@ -9,9 +9,10 @@ import {
   type Cell,
   type CELL_TYPE,
   GraphVisualizerContext,
+  STATUS,
 } from "./GraphVisualizerContext";
 import dfs from "../algorithms/dfs";
-import { isValid } from "../algorithms/helpers";
+import { generateRandomsWalls, isValid } from "../algorithms/helpers";
 import bfs from "../algorithms/bfs";
 
 function GraphVisualizerProvider({ children }: PropsWithChildren) {
@@ -19,8 +20,9 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
   const [currentCellType, setCurrentCellType] = useState<CELL_TYPE | null>(
     null
   );
-  const [m] = useState(15);
-  const [n] = useState(15);
+  const [m, setM] = useState(15);
+  const [n, setN] = useState(15);
+  const [animationSpeed, setAnimationSpeed] = useState(20);
   const [start, setStart] = useState<Cell>({ x: 0, y: 0 });
   const [end, setEnd] = useState<Cell>({ x: m - 1, y: n - 1 });
   const [walls, setWalls] = useState<Cell[]>([]);
@@ -65,11 +67,19 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
     setCells(res);
   }, [getType, m, n]);
 
-  function runAnimation() {
+  function runDfs() {
     resetPath();
+    const animations = dfs(matrix, start, end);
+    runAnimation(animations);
+  }
 
+  function runBfs() {
+    resetPath();
     const animations = bfs(matrix, start, end);
+    runAnimation(animations);
+  }
 
+  function runAnimation(animations: { status: STATUS; points: Cell[] }[]) {
     for (let i = 0; i < animations.length; i++) {
       const points = animations[i].points;
       const status = animations[i].status;
@@ -80,13 +90,13 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
               for (const point of points) {
                 if (point.x === i && point.y === j) {
                   return { ...cell, status };
-                } 
+                }
               }
               return cell;
             });
           });
         });
-      }, i * 20);
+      }, i * animationSpeed);
 
       setTimeoutIds((prev) => {
         return [...prev, id];
@@ -109,7 +119,25 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
   function resetAll() {
     resetPath();
     setWalls([]);
+    setStart({ x: 0, y: 0 });
+    setEnd({ x: m - 1, y: n - 1 });
   }
+
+  function generateWalls() {
+    resetPath();
+    const randoms = generateRandomsWalls(m, n, 0.2).filter(
+      (wall) =>
+        (wall.x !== start.x || wall.y !== start.y) &&
+        (wall.x !== end.x || wall.y !== end.y)
+    );
+    setWalls(randoms);
+  }
+
+  useEffect(() => {
+    if (end.x >= m || end.y >= n) {
+      setEnd({ x: m - 1, y: n - 1 });
+    }
+  }, [end.x, end.y, m, n]);
 
   return (
     <GraphVisualizerContext.Provider
@@ -120,6 +148,9 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
         setCurrentCellType,
         m,
         n,
+        animationSpeed,
+        setM,
+        setN,
         start,
         setStart,
         end,
@@ -132,7 +163,10 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
         setCells,
         resetPath,
         resetAll,
-        runAnimation,
+        runDfs,
+        runBfs,
+        setAnimationSpeed,
+        generateWalls,
       }}
     >
       {children}

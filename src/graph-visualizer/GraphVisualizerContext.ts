@@ -14,6 +14,7 @@ export interface Cell {
 interface GraphVisualizerContextType {
   m: number;
   n: number;
+  animationSpeed: number;
   start: Cell;
   end: Cell;
   setStart: Dispatch<SetStateAction<Cell>>;
@@ -22,13 +23,17 @@ interface GraphVisualizerContextType {
   setWalls: Dispatch<SetStateAction<Cell[]>>;
   isMouseDown: boolean;
   setIsMouseDown: Dispatch<SetStateAction<boolean>>;
+  setM: Dispatch<SetStateAction<number>>;
+  setN: Dispatch<SetStateAction<number>>;
+  setAnimationSpeed: Dispatch<SetStateAction<number>>;
   currentCellType: string | null;
   setCurrentCellType: Dispatch<SetStateAction<CELL_TYPE | null>>;
   matrix: number[][];
   getType: (x: number, y: number) => CELL_TYPE;
   cells: Cell[][];
   setCells: Dispatch<SetStateAction<Cell[][]>>;
-  runAnimation: () => void;
+  runDfs: () => void;
+  runBfs: () => void;
   resetPath: () => void;
   resetAll: () => void;
 }
