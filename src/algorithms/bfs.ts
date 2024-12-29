@@ -57,7 +57,7 @@ export default function bfs(matrix: number[][], start: Cell, end: Cell) {
   // Generate shortest path animation
   console.log(path);
   let curr: Cell | null = end;
-  const shortestPathAnimations = [];
+  const shortestPathAnimations: { status: STATUS; points: Cell[] }[] = [];
   while (curr !== null && (curr.x !== start.x || curr.y !== start.y)) {
     shortestPathAnimations.push({
       status: "SHORTEST_PATH",

@@ -17,6 +17,7 @@ function Cell({ cell }: CellProps) {
     setIsMouseDown,
     setCurrentCellType,
     setWalls,
+    getType,
   } = useGraphVisualizerContext();
 
   if (!cell) return;
@@ -25,14 +26,21 @@ function Cell({ cell }: CellProps) {
 
   function handleOnMouseDown(x: number, y: number) {
     setIsMouseDown(true);
-    if (x === start.x && y === start.y) {
-      setCurrentCellType("START");
-    } else if (x === end.x && y === end.y) {
-      setCurrentCellType("END");
-    } else {
-      setCurrentCellType("WALL");
+    const type = getType(x, y);
+    setCurrentCellType(type);
+    if (type === "BLANK") {
       setWalls((prev) => [...prev, { x, y }]);
+    } else if (type === 'WALL') {
+      setWalls(prev => prev.filter(cell => cell.x !== x || cell.y !== y))
     }
+    // if (x === start.x && y === start.y) {
+    //   setCurrentCellType("START");
+    // } else if (x === end.x && y === end.y) {
+    //   setCurrentCellType("END");
+    // } else {
+    //   setCurrentCellType("WALL");
+    //   setWalls((prev) => [...prev, { x, y }]);
+    // }
   }
 
   function handleMouseUp() {
@@ -46,6 +54,7 @@ function Cell({ cell }: CellProps) {
     y: number
   ) {
     if (e.buttons !== 1) {
+      // left click
       setIsMouseDown(false);
       return;
     }
@@ -58,8 +67,10 @@ function Cell({ cell }: CellProps) {
       setStart({ x, y });
     } else if (currentCellType === "END") {
       setEnd({ x, y });
-    } else {
+    } else if (currentCellType === 'BLANK') {
       setWalls((prev) => [...prev, { x, y }]);
+    } else {
+      setWalls((prev) => prev.filter(cell => cell.x !== x || cell.y !== y));
     }
   }
 
@@ -73,7 +84,7 @@ function Cell({ cell }: CellProps) {
         handleMouseOver(e, x, y)
       }
       className={classNames(
-        "cell flex-grow border flex-shrink-0 w-full h-full aspect-square min-w-4 lg:min-w-8 border-gray-400 inline-flex items-center justify-center",
+        "cell flex-grow border flex-shrink-0 w-full h-full aspect-square min-w-4 md:min-w-6 lg:min-w-8 border-gray-400 inline-flex items-center justify-center",
         {
           "bg-red-500": type === "WALL",
           "bg-blue-500": type === "START",

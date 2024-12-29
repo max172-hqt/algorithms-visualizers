@@ -1,30 +1,32 @@
 import { useGraphVisualizerContext } from "./GraphVisualizerContext";
 import Cell from "./Cell";
-import {
-  IconExclamationCircleFilled,
-} from "@tabler/icons-react";
+import { IconExclamationCircleFilled } from "@tabler/icons-react";
 
 const Legend = () => (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-row xl:flex-col gap-4 flex-wrap">
     <div className="flex gap-2 items-center">
-      <div className="h-6 w-6 bg-blue-500"></div>
-      <p>Start Cell</p>
+      <div className="flex-shrink-0 h-6 w-6 bg-blue-500"></div>
+      <p>Start</p>
     </div>
     <div className="flex gap-2 items-center">
-      <div className="h-6 w-6 bg-green-500"></div>
-      <p>End Cell</p>
+      <div className="flex-shrink-0 h-6 w-6 bg-green-500"></div>
+      <p>End</p>
     </div>
     <div className="flex gap-2 items-center">
-      <div className="h-6 w-6 bg-red-500"></div>
-      <p>Wall Cell</p>
+      <div className="flex-shrink-0 h-6 w-6 bg-red-500"></div>
+      <p>Wall</p>
     </div>
     <div className="flex gap-2 items-center">
-      <div className="h-6 w-6 bg-orange-300"></div>
-      <p>Visited Cell</p>
+      <div className="flex-shrink-0 h-6 w-6 bg-orange-200"></div>
+      <p>Visited</p>
     </div>
     <div className="flex gap-2 items-center">
-      <div className="h-6 w-6 bg-red-200"></div>
+      <div className="flex-shrink-0 h-6 w-6 bg-red-200"></div>
       <p>Dead End (DFS)</p>
+    </div>
+    <div className="flex gap-2 items-center">
+      <div className="flex-shrink-0 h-6 w-6 bg-orange-500"></div>
+      <p>Shortest Path (BFS)</p>
     </div>
   </div>
 );
@@ -33,7 +35,7 @@ function Board() {
   const { matrix, cells, m, n } = useGraphVisualizerContext();
 
   return (
-    <div className="flex-1 flex md:flex-row flex-col gap-8 justify-center items-center p-4 bg-[#121212] rounded-lg text-white text-sm w-full overflow-hidden">
+    <div className="flex-1 flex xl:flex-row flex-col gap-8 justify-center items-center p-4 bg-[#121212] rounded-lg text-white text-sm w-full overflow-hidden">
       <div
         className="grid gap-1 bg-[#1f1f1f] p-4 rounded-lg flex-shrink-0"
         style={{
@@ -55,7 +57,12 @@ function Board() {
           position.
         </p>
         <p className="inline-flex gap-2 items-center">
-          <IconExclamationCircleFilled /> Click or drag blank cells to generate walls.
+          <IconExclamationCircleFilled /> Click or drag blank cells to generate
+          walls.
+        </p>
+        <p className="inline-flex gap-2 items-center">
+          <IconExclamationCircleFilled /> Click or drag wall cells to remove
+          walls.
         </p>
       </div>
     </div>
