@@ -125,7 +125,7 @@ function GraphVisualizerProvider({ children }: PropsWithChildren) {
 
   function generateWalls() {
     resetPath();
-    const randoms = generateRandomsWalls(m, n, 0.2).filter(
+    const randoms = generateRandomsWalls(m, n, 0.3).filter(
       (wall) =>
         (wall.x !== start.x || wall.y !== start.y) &&
         (wall.x !== end.x || wall.y !== end.y)

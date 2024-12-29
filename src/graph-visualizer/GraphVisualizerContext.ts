@@ -2,7 +2,7 @@ import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 export type CELL_TYPE = "START" | "END" | "BLANK" | "WALL";
 
-export type STATUS = "VISITED" | "DEAD_END";
+export type STATUS = "VISITED" | "DEAD_END" | "SHORTEST_PATH";
 
 export interface Cell {
   x: number;

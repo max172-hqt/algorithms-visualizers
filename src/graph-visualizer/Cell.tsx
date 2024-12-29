@@ -80,12 +80,14 @@ function Cell({ cell }: CellProps) {
           "bg-green-500": type === "END",
           "bg-red-200":
             status === "DEAD_END" && type !== "END" && type !== "START",
-          "bg-orange-300":
+          "bg-orange-200":
             status === "VISITED" && type !== "END" && type !== "START",
+          "bg-orange-500":
+            status === "SHORTEST_PATH" && type !== "END" && type !== "START",
         }
       )}
     >
-      {status === "VISITED" && type === "END" && <IconPennant2 />}
+      {/* {status === "VISITED" && type === "END" && <IconPennant2 />} */}
     </div>
   );
 }

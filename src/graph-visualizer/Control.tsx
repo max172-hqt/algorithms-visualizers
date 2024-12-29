@@ -112,10 +112,10 @@ function Control() {
                 />
               </Field>
               <div className="flex gap-4">
-                <Button variant="danger" onClick={() => setIsDialogOpen(false)}>
+                <Button variant="primary" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button variant="primary" onClick={handleApply} type="submit">
+                <Button variant="danger" onClick={handleApply} type="submit">
                   Apply
                 </Button>
               </div>
