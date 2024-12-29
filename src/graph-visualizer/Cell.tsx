@@ -89,11 +89,11 @@ function Cell({ cell }: CellProps) {
           "bg-red-500": type === "WALL",
           "bg-blue-500": type === "START",
           "bg-green-500": type === "END",
-          "bg-red-200":
+          "bg-red-200 transition-colors ":
             status === "DEAD_END" && type !== "END" && type !== "START",
-          "bg-orange-200":
+          "bg-orange-200 transition-colors ":
             status === "VISITED" && type !== "END" && type !== "START",
-          "bg-orange-500":
+          "bg-orange-500 transition-colors ":
             status === "SHORTEST_PATH" && type !== "END" && type !== "START",
         }
       )}
