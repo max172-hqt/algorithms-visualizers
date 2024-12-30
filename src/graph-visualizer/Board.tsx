@@ -21,7 +21,7 @@ const Legend = () => (
       <p>Visited</p>
     </div>
     <div className="flex gap-2 items-center">
-      <div className="flex-shrink-0 h-6 w-6 bg-red-200"></div>
+      <div className="flex-shrink-0 h-6 w-6 bg-red-300"></div>
       <p>Dead End (DFS)</p>
     </div>
     <div className="flex gap-2 items-center">

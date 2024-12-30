@@ -89,7 +89,7 @@ function Cell({ cell }: CellProps) {
           "bg-red-500": type === "WALL",
           "bg-blue-500": type === "START",
           "bg-green-500": type === "END",
-          "bg-red-200 transition-colors ":
+          "bg-red-300 transition-colors ":
             status === "DEAD_END" && type !== "END" && type !== "START",
           "bg-orange-200 transition-colors ":
             status === "VISITED" && type !== "END" && type !== "START",
