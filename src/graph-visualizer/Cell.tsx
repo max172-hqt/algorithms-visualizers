@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { type Cell, useGraphVisualizerContext } from "./GraphVisualizerContext";
-import { IconPennant2 } from "@tabler/icons-react";
 
 interface CellProps {
   cell: Cell;
@@ -8,8 +7,6 @@ interface CellProps {
 
 function Cell({ cell }: CellProps) {
   const {
-    start,
-    end,
     isMouseDown,
     currentCellType,
     setStart,
@@ -33,14 +30,6 @@ function Cell({ cell }: CellProps) {
     } else if (type === 'WALL') {
       setWalls(prev => prev.filter(cell => cell.x !== x || cell.y !== y))
     }
-    // if (x === start.x && y === start.y) {
-    //   setCurrentCellType("START");
-    // } else if (x === end.x && y === end.y) {
-    //   setCurrentCellType("END");
-    // } else {
-    //   setCurrentCellType("WALL");
-    //   setWalls((prev) => [...prev, { x, y }]);
-    // }
   }
 
   function handleMouseUp() {

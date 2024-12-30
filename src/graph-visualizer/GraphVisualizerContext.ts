@@ -36,6 +36,7 @@ interface GraphVisualizerContextType {
   runBfs: () => void;
   resetPath: () => void;
   resetAll: () => void;
+  generateWalls: () => void;
 }
 
 export const GraphVisualizerContext =

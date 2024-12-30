@@ -32,7 +32,7 @@ function Control() {
   const [cols, setCols] = useState(n);
   const [speed, setSpeed] = useState(animationSpeed);
 
-  function handleApply(e) {
+  function handleApply(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setM(Math.min(rows, 20));
     setRows(Math.min(rows, 20));
