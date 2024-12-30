@@ -6,6 +6,7 @@
 - For DFS: Show dead end cells and backtracking animations.
 - Settings to set number of rows, columns and animation speed.
 - Generate and remove wall cells. Update positions of start, end cells.
+- Works on mobile and desktop browsers.
 
 ## Clone the project
 
