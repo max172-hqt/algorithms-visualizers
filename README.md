@@ -1,5 +1,7 @@
 # Graph Algorithm Visualizers
 
+Checkout the app [here](https://huytr.dev/algorithms-visualizers/)
+
 ## Features
 - Visualization for graph algorithms DFS and BFS.
 - For BFS: Show the shortest path to destination animation if there is one.

@@ -8,7 +8,7 @@ function Layout({ children }: PropsWithChildren) {
         <div className="text-white text-lg font-bold">
           Graph Visualizers
         </div>
-        <a href="https://github.com/" target="_blank"><IconBrandGithubFilled /></a>
+        <a href="https://github.com/max172-hqt/algorithms-visualizers" target="_blank"><IconBrandGithubFilled /></a>
       </header>
       <main className="w-full h-full flex-1 flex flex-col">
         {children}
